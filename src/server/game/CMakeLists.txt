@@ -1,4 +1,4 @@
-# Copyright (C) 2008-2016 TrinityCore <http://www.trinitycore.org/>
+# Copyright (C) 2008-2015 TrinityCore <http://www.trinitycore.org/>
 #
 # This file is free software; as a special exception the author gives
 # unlimited permission to copy and/or distribute it, with or without
@@ -211,6 +211,14 @@ add_library(game STATIC
 target_link_libraries(game
   azth_mod
 )
+
+IF(AZTH_SCRIPT_MGR_TC)
+	target_compile_definitions(game PRIVATE AZTH_SCRIPT_MGR_TC=1)
+ENDIF()
+IF(AZTH_SCRIPT_MGR_CUSTOM)
+	target_compile_definitions(game PRIVATE AZTH_SCRIPT_MGR_CUSTOM=1)
+ENDIF()
+
 
 # Generate precompiled header
 if (USE_COREPCH)
