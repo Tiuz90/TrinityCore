@@ -36,7 +36,7 @@
 #include "Chat.h"
 
 //[AZTH]
-#include "ModsMgr.h"
+#include "PluginsMgr.h"
 
 // namespace
 // {
@@ -263,7 +263,7 @@ void ScriptMgr::Initialize()
     AddScripts();
 
     // [AZTH]
-    sModsMgr->Initialization();
+    sAzthPlg->Initialization();
     // [/AZTH]
     
 #ifdef SCRIPTS
@@ -1702,9 +1702,15 @@ GroupScript::GroupScript(const char* name)
 }
 
 //[AZTH]
+AzerothPlugins::AzerothPlugins(const char* name)
+    : ScriptObject(name)
+{
+    ScriptRegistry<AzerothPlugins>::AddScript(this);
+}
+
 void ScriptMgr::onTest()
 {
-    FOREACH_SCRIPT(AzerothScript)->onTest();
+    FOREACH_SCRIPT(AzerothPlugins)->onTest();
 }
 //[AZTH]
 
@@ -1740,7 +1746,7 @@ template class ScriptRegistry<GroupScript>;
 template class ScriptRegistry<UnitScript>;
 template class ScriptRegistry<AccountScript>;
 //[AZTH]
-template class ScriptRegistry<AzerothScript>;
+template class ScriptRegistry<AzerothPlugins>;
 //[AZTH]
 
 // Undefine utility macros.
