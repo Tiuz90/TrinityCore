@@ -9,7 +9,7 @@ CDEBUG=0
 # specify compilation type
 CCTYPE=Release
 # compile scripts
-CSCRIPTS=1
+CSCRIPTS=0
 # compile server
 CSERVERS=1
 # compile tools
@@ -18,9 +18,16 @@ CTOOLS=0
 CSCRIPTPCH=1
 CCOREPCH=1
 
+# compile azth plugins for custom features
+CAZTH_PLG=1
+# compile azth plugins for trinitycore features
+CAZTH_TC_PLG=1
+
+CAZTH_UNIT_TEST=1
+
 # absolute root path of your azerothshard repository
-SRCPATH=
+SRCPATH=/home/hw2/usr/workspace/projects/AzerothShard/server/
 # absolute path where binary files must be stored
-BINPATH=
+BINPATH=/home/hw2/modules/azerothshard-server/
 # absolute path where config. files must be stored
-CONFDIR=
+CONFDIR=/home/hw2/modules/azerothshard-server/etc/
