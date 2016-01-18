@@ -36,7 +36,7 @@
 #include "Chat.h"
 
 //[AZTH]
-#include "PluginsMgr.h"
+#include "AzthSystem.h"
 
 // namespace
 // {
