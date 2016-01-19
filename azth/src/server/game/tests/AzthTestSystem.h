@@ -1,6 +1,8 @@
 #ifndef AZTHTESTSYSTEM_H
 #define	AZTHTESTSYSTEM_H
 
+#include "AzthSystem.h"
+
 #ifdef AZTH_WITH_PLUGINS
     #include "AzthPlgTests.h"
 #endif

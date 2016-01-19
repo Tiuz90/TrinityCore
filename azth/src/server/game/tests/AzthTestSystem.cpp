@@ -6,7 +6,7 @@ public:
     AzthTestSystem() : WorldScript("AzthTestSystem") {
     }
 
-    WorldScript* OnStartup() const override {
+    void OnStartup() override {
 
     }
 

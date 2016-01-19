@@ -58,7 +58,7 @@ public:
         }
         if (target->getLevel() < 80)
         {
-            handler->PSendSysMessage(LANG_REQUIRED_LEVEL, 80);
+            handler->PSendSysMessage(LANG_LEVEL_MINREQUIRED, 80);
             handler->SetSentErrorMessage(true);
             return false;
         }
