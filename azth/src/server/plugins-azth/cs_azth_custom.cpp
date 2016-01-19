@@ -27,6 +27,14 @@
 #include "Player.h"
 #include "Pet.h"
 
+
+enum AzthRbac
+{
+    RBAC_PERM_COMMAND_AZTH                                   = 1001,
+    RBAC_PERM_COMMAND_AZTH_MAXSKILL                          = 1002
+};
+
+
 class azth_commandscript : public CommandScript
 {
 public:
@@ -36,12 +44,12 @@ public:
     {
         static std::vector<ChatCommand> lookupAzthCommands =
         {
-            { "maxskill", rbac::RBAC_PERM_COMMAND_AZTH_MAXSKILL, true, &handleAzthMaxSkill, "" },
+            { "maxskill", AzthRbac::RBAC_PERM_COMMAND_AZTH_MAXSKILL, true, &handleAzthMaxSkill, "" },
         };
 
         static std::vector<ChatCommand> commandTable =
         {
-            { "azth", rbac::RBAC_PERM_COMMAND_AZTH, true, NULL, "", lookupAzthCommands },
+            { "azth", AzthRbac::RBAC_PERM_COMMAND_AZTH, true, NULL, "", lookupAzthCommands },
         };
         return commandTable;
     }

@@ -75,6 +75,6 @@ local.properties
 
 # AZTH
 
-/bin/config.sh
+/bin/compiler/config.sh
 
 /usr/
