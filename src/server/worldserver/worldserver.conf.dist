@@ -406,6 +406,24 @@ CleanCharacterDB = 0
 PersistentCharacterCleanFlags = 0
 
 #
+#    Auction.GetAllScanDelay
+#        Description: Sets the minimum time in seconds, a single player character can perform a getall scan.
+#                     The value is only held in memory so a server restart will clear it.
+#                     Setting this to zero, will disable GetAll functions completely.
+#        Default:     900 - (GetAll scan limited to once every 15mins per player character)
+
+Auction.GetAllScanDelay = 900
+
+#
+#    Auction.SearchDelay
+#        Description: Sets the minimum time in milliseconds (seconds x 1000), that the client must wait between
+#                     auction search operations. This can be increased if somehow Auction House activity is causing
+#                     too much load.
+#        Default:     300 - (Time delay between auction searches set to 0.3secs)
+
+Auction.SearchDelay = 300
+
+#
 ###################################################################################################
 
 ###################################################################################################
@@ -1336,10 +1354,11 @@ AllowTwoSide.Trade = 0
 
 #
 #    TalentsInspecting
-#        Description: Allow inspecting characters from the opposing faction.
-#                     Doesn't affect characters in gamemaster mode.
-#        Default:     1 - (Enabled)
-#                     0 - (Disabled)
+#        Description: Allow/disallow inspecting other characters' talents.
+#                     Doesn't affect game master accounts.
+#                     2 - (Enabled for all characters)
+#        Default:     1 - (Enabled for characters of the same faction)
+#                     0 - (Talent inspecting is disabled)
 
 TalentsInspecting = 1
 
@@ -3188,6 +3207,46 @@ AuctionHouseBot.forceIncludeItems = ""
 #
 
 AuctionHouseBot.forceExcludeItems = ""
+
+#
+#    AuctionHouseBot.Class.RandomStackRatio.*
+#       Description: Used to determine how often a stack of the class will be single or randomly-size stacked when posted
+#                    Value needs to be between 0 and 100, no decimal.  Anything higher than 100 will be treated as 100
+#       Examples:    100 = stacks will always be random in size
+#                    50 = half the time the stacks are random, the other half being single stack
+#                    0 = stacks will always single size
+#       Default:     Consumable: 20 (20% random stack size, 80% single stack size)
+#                    Container: 0 (100% single stack size)
+#                    Weapon: 0 (100% single stack size)
+#                    Gem: 20 (20% random stack size, 80% single stack size)
+#                    Armor: 0 (100% single stack size)
+#                    Reagent: 100 (100% random stack size)
+#                    Projectile: 100 (100% random stack size)
+#                    TradeGood: 50 (50% random stack size, 50% single stack size)
+#                    Generic: 100 (100% random stack size)
+#                    Recipe: 0 (100% single stack size)
+#                    Quiver: 0 (100% single stack size)
+#                    Quest: 100 (100% random stack size)
+#                    Key: 100 (100% random stack size)
+#                    Misc: 100 (100% random stack size)
+#                    Glyph: 0 (100% single stack size)
+#
+
+AuctionHouseBot.Class.RandomStackRatio.Consumable = 20
+AuctionHouseBot.Class.RandomStackRatio.Container = 0
+AuctionHouseBot.Class.RandomStackRatio.Weapon = 0
+AuctionHouseBot.Class.RandomStackRatio.Gem = 20
+AuctionHouseBot.Class.RandomStackRatio.Armor = 0
+AuctionHouseBot.Class.RandomStackRatio.Reagent = 100
+AuctionHouseBot.Class.RandomStackRatio.Projectile = 100
+AuctionHouseBot.Class.RandomStackRatio.TradeGood = 50
+AuctionHouseBot.Class.RandomStackRatio.Generic = 100
+AuctionHouseBot.Class.RandomStackRatio.Recipe = 0
+AuctionHouseBot.Class.RandomStackRatio.Quiver = 0
+AuctionHouseBot.Class.RandomStackRatio.Quest = 100
+AuctionHouseBot.Class.RandomStackRatio.Key = 100
+AuctionHouseBot.Class.RandomStackRatio.Misc = 100
+AuctionHouseBot.Class.RandomStackRatio.Glyph = 0
 
 #
 ###################################################################################################
