@@ -104,7 +104,7 @@ RealmsStateUpdateDelay = 20
 #        Default:     0  - (Disabled)
 #                     1+ - (Enabled)
 
-WrongPass.MaxCount = 0
+WrongPass.MaxCount = 6
 
 #
 #    WrongPass.BanTime
@@ -120,7 +120,7 @@ WrongPass.BanTime = 600
 #        Default:     0 - (Ban IP)
 #                     1 - (Ban Account)
 
-WrongPass.BanType = 0
+WrongPass.BanType = 1
 
 #
 #    WrongPass.Logging
@@ -128,7 +128,34 @@ WrongPass.BanType = 0
 #        Default:     0 - (Disabled)
 #                     1 - (Enabled)
 
-WrongPass.Logging = 0
+WrongPass.Logging = 1
+
+#
+#    BanExpiryCheckInterval
+#        Description: Time (in seconds) between checks for expired bans
+#        Default:     60
+
+BanExpiryCheckInterval = 60
+
+#
+#    SourceDirectory
+#        Description: The path to your TrinityCore source directory.
+#                     If the path is left empty, the built-in CMAKE_SOURCE_DIR is used.
+#        Example:     "../TrinityCore"
+#        Default:     ""
+
+SourceDirectory  = "../../usr/server"
+
+#
+#    MySQLExecutable
+#        Description: The path to your mysql cli binary.
+#                     If the path is left empty, built-in path from cmake is used.
+#        Example:     "C:/Program Files/MySQL/MySQL Server 5.6/bin/mysql.exe"
+#                     "mysql.exe"
+#                     "/usr/bin/mysql"
+#        Default:     ""
+
+MySQLExecutable = "/usr/bin/mysql"
 
 #
 ###################################################################################################
@@ -172,26 +199,6 @@ LoginDatabase.WorkerThreads = 1
 #                     1  - (All Enabled)
 
 Updates.EnableDatabases = 1
-
-#
-#    Updates.SourcePath
-#        Description: The path to your TrinityCore source directory.
-#                     If the path is left empty, built-in CMAKE_SOURCE_DIR is used.
-#        Example:     "../TrinityCore"
-#        Default:     ""
-
-Updates.SourcePath  = "../../usr/server"
-
-#
-#    Updates.MySqlCLIPath
-#        Description: The path to your mysql cli binary.
-#                     If the path is left empty, built-in path from cmake is used.
-#        Example:     "C:/Program Files/MySQL/MySQL Server 5.6/bin/mysql.exe"
-#                     "mysql.exe"
-#                     "/usr/bin/mysql"
-#        Default:     ""
-
-Updates.MySqlCLIPath = "/usr/bin/mysql"
 
 #
 #    Updates.AutoSetup

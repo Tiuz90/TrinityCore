@@ -161,6 +161,45 @@ BindIP = "0.0.0.0"
 ThreadPool = 6
 
 #
+#    CMakeCommand
+#        Description: The path to your CMake binary.
+#                     If the path is left empty, the built-in CMAKE_COMMAND is used.
+#        Example:     "C:/Program Files (x86)/CMake/bin/cmake.exe"
+#                     "/usr/bin/cmake"
+#        Default:     ""
+
+CMakeCommand  = ""
+
+#
+#    BuildDirectory
+#        Description: The path to your build directory.
+#                     If the path is left empty, the built-in CMAKE_BINARY_DIR is used.
+#        Example:     "../TrinityCore"
+#        Default:     ""
+
+BuildDirectory  = ""
+
+#
+#    SourceDirectory
+#        Description: The path to your TrinityCore source directory.
+#                     If the path is left empty, the built-in CMAKE_SOURCE_DIR is used.
+#        Example:     "../TrinityCore"
+#        Default:     ""
+
+SourceDirectory  = "../../usr/server"
+
+#
+#    MySQLExecutable
+#        Description: The path to your mysql cli binary.
+#                     If the path is left empty, built-in path from cmake is used.
+#        Example:     "C:/Program Files/MySQL/MySQL Server 5.6/bin/mysql.exe"
+#                     "mysql.exe"
+#                     "/usr/bin/mysql"
+#        Default:     ""
+
+MySQLExecutable = "/usr/bin/mysql"
+
+#
 ###################################################################################################
 
 ###################################################################################################
@@ -172,7 +211,7 @@ ThreadPool = 6
 #                     1  - 1st CPU only, 2 - 2nd CPU only, 3 - 1st and 2nd CPU, because 1 | 2 is 3
 #        Default:     0  - (Selected by OS)
 #                     1+ - (Bit mask value of selected processors)
-# 1 | 2 | 3 | 4 = 7
+
 UseProcessors = 0
 
 #
@@ -404,6 +443,24 @@ CleanCharacterDB = 1
 #        Default:     0  - (All cleanup methods will be disabled after the next cleanup)
 
 PersistentCharacterCleanFlags = 0
+
+#
+#    Auction.GetAllScanDelay
+#        Description: Sets the minimum time in seconds, a single player character can perform a getall scan.
+#                     The value is only held in memory so a server restart will clear it.
+#                     Setting this to zero, will disable GetAll functions completely.
+#        Default:     900 - (GetAll scan limited to once every 15mins per player character)
+
+Auction.GetAllScanDelay = 900
+
+#
+#    Auction.SearchDelay
+#        Description: Sets the minimum time in milliseconds (seconds x 1000), that the client must wait between
+#                     auction search operations. This can be increased if somehow Auction House activity is causing
+#                     too much load.
+#        Default:     300 - (Time delay between auction searches set to 0.3secs)
+
+Auction.SearchDelay = 300
 
 #
 ###################################################################################################
@@ -1142,31 +1199,11 @@ BirthdayTime = 1420822800
 #           DATABASE_CHARACTER = 2, // Character database
 #           DATABASE_WORLD     = 4, // World database
 #
-#        Default:     0  - (All Disabled)
+#        Default:     7  - (All enabled)
 #                     4  - (Enable world only)
-#                     7  - (All enabled)
+#                     0  - (All disabled)
 
 Updates.EnableDatabases = 7
-
-#
-#    Updates.SourcePath
-#        Description: The path to your TrinityCore source directory.
-#                     If the path is left empty, built-in CMAKE_SOURCE_DIR is used.
-#        Example:     "../TrinityCore"
-#        Default:     ""
-
-Updates.SourcePath  = "../../usr/server"
-
-#
-#    Updates.MySqlCLIPath
-#        Description: The path to your mysql cli binary.
-#                     If the path is left empty, built-in path from cmake is used.
-#        Example:     "C:/Program Files/MySQL/MySQL Server 5.6/bin/mysql.exe"
-#                     "mysql.exe"
-#                     "/usr/bin/mysql"
-#        Default:     ""
-
-Updates.MySqlCLIPath = "/usr/bin/mysql"
 
 #
 #    Updates.AutoSetup
@@ -1336,12 +1373,13 @@ AllowTwoSide.Trade = 1
 
 #
 #    TalentsInspecting
-#        Description: Allow inspecting characters from the opposing faction.
-#                     Doesn't affect characters in gamemaster mode.
-#        Default:     1 - (Enabled)
-#                     0 - (Disabled)
+#        Description: Allow/disallow inspecting other characters' talents.
+#                     Doesn't affect game master accounts.
+#                     2 - (Enabled for all characters)
+#        Default:     1 - (Enabled for characters of the same faction)
+#                     0 - (Talent inspecting is disabled)
 
-TalentsInspecting = 1
+TalentsInspecting = 2
 
 #
 ###################################################################################################
