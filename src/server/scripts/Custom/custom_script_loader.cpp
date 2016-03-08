@@ -17,9 +17,15 @@
 
 // This is where scripts' loading functions should be declared:
 
+//[AZTH]
+void AddSC_npc_1v1arena();
+//[/AZTH]
 
 // The name of this function should match:
 // void Add${NameOfDirectory}Scripts()
 void AddCustomScripts()
 {
+//[AZTH]
+    AddSC_npc_1v1arena();
+//[/AZTH]
 }
