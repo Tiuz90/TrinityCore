@@ -17,9 +17,20 @@
 
 // This is where scripts' loading functions should be declared:
 
+//[AZTH]
+void AddSC_PWS_Transmogrification();
+void AddSC_CS_Transmogrification();
+//[AZTH]
 
 // The name of this function should match:
 // void Add${NameOfDirectory}Scripts()
 void AddCustomScripts()
 {
+#ifdef SCRIPTS
+    /* This is where custom scripts should be added. */
+    //[AZTH]
+    AddSC_PWS_Transmogrification();
+    AddSC_CS_Transmogrification();
+    //[AZTH]
+#endif
 }

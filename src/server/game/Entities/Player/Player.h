@@ -18,7 +18,9 @@
 
 #ifndef _PLAYER_H
 #define _PLAYER_H
-
+ //[AZTH]
+#include "../../../scripts/Custom/Transmog/Transmogrification.h"
+ //[AZTH]
 #include "DBCStores.h"
 #include "GroupReference.h"
 #include "MapReference.h"
@@ -129,10 +131,22 @@ struct SpellModifier
     uint32 spellId;
     Aura* const ownerAura;
 };
-
+//[AZTH]
+typedef std::unordered_map<ObjectGuid, uint32> TransmogMapType;
+#ifdef PRESETS
+typedef std::map<uint8, uint32> PresetslotMapType;
+struct PresetData
+{
+    std::string name;
+    PresetslotMapType slotMap;
+};
+typedef std::map<uint8, PresetData> PresetMapType;
+#endif
+//[AZTH]
 typedef std::unordered_map<uint32, PlayerTalent*> PlayerTalentMap;
 typedef std::unordered_map<uint32, PlayerSpell*> PlayerSpellMap;
 typedef std::list<SpellModifier*> SpellModList;
+
 
 typedef std::unordered_map<uint32 /*instanceId*/, time_t/*releaseTime*/> InstanceTimeMap;
 
@@ -2257,6 +2271,12 @@ class Player : public Unit, public GridObject<Player>
 
         std::string GetMapAreaAndZoneString();
         std::string GetCoordsMapAreaAndZoneString();
+        //[AZTH]
+        TransmogMapType transmogMap; // transmogMap[iGUID] = entry
+        #ifdef PRESETS
+            PresetMapType presetMap; // presetMap[presetId] = presetData
+        #endif
+        //[AZTH]
 
     protected:
         // Gamemaster whisper whitelist
