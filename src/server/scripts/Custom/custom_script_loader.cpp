@@ -20,6 +20,7 @@
 //[AZTH]
 void AddSC_PWS_Transmogrification();
 void AddSC_CS_Transmogrification();
+void AddSC_npc_1v1arena();
 //[AZTH]
 
 // The name of this function should match:
@@ -31,6 +32,7 @@ void AddCustomScripts()
     //[AZTH]
     AddSC_PWS_Transmogrification();
     AddSC_CS_Transmogrification();
+    AddSC_npc_1v1arena();
     //[AZTH]
 #endif
 }
