@@ -15,7 +15,9 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
+//[AZTH]
+#include "../../scripts/Custom/Transmog/Transmogrification.h"
+//[AZTH]
 #include "Common.h"
 #include "DBCStores.h"
 #include "WorldPacket.h"
@@ -624,8 +626,14 @@ void WorldSession::HandleMirrorImageDataRequest(WorldPacket& recvData)
                 data << uint32(0);
             else if (*itr == EQUIPMENT_SLOT_BACK && player->HasFlag(PLAYER_FLAGS, PLAYER_FLAGS_HIDE_CLOAK))
                 data << uint32(0);
-            else if (Item const* item = player->GetItemByPos(INVENTORY_SLOT_BAG_0, *itr))
-                data << uint32(item->GetTemplate()->DisplayInfoID);
+            else if (Item const* item = player->GetItemByPos(INVENTORY_SLOT_BAG_0, *itr))//[AZTH]
+            {
+                if (uint32 entry = sTransmogrification->GetFakeEntry(item))
+                     data << uint32(sObjectMgr->GetItemTemplate(entry)->DisplayInfoID);
+                else
+                     data << uint32(item->GetTemplate()->DisplayInfoID);
+                
+            }//[AZTH]
             else
                 data << uint32(0);
         }
