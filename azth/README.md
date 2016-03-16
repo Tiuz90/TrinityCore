@@ -14,6 +14,8 @@ With **custom**, we mean all stuff we need that **can't** be merged into Trinity
 
 ## Custom Code
 
+With **custom code** we mean all code that is not currently part of TrinityCore. Example of custom code can be custom features, hackfixes or even blizzlike fixes that for some reasons are not yet merged into TrinityCore.
+
 All custom code must be surrounded by ```// [AZTH]```  and ```// [/AZTH]``` tags, specifying the name of the author. Example:
 
 ```
