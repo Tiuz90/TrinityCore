@@ -2,7 +2,7 @@
 
 AzerothShard follows an **open development model**, we share with TrinityCore all our blizzlike fixes.
 
-So if you have a blizzlike fix for AzerothShard, try to merge it into TrinityCore first. In this way your code helps the global development and can be reviewed by many more developers, and **everyone gains**.
+So if you have a blizzlike fix for AzerothShard, try to merge it into TrinityCore too. In this way your code helps the global development and can be reviewed by many more developers, and **everyone gains**.
 
 Following guidelines describe how to handle all of the custom code.
 With **custom**, we mean all stuff we need that **can't** be merged into TrinityCore (for any reason).
@@ -14,10 +14,10 @@ With **custom**, we mean all stuff we need that **can't** be merged into Trinity
 
 ## Custom Code
 
-All custom code must be surrounded by ```// [AZTH]```  and ```// [/AZTH]``` tags. Example:
+All custom code must be surrounded by ```// [AZTH]```  and ```// [/AZTH]``` tags, specifying the name of the author. Example:
 
 ```
-// [AZTH]
+// [AZTH] AuthorName
 
 // custom code
 
