@@ -471,11 +471,20 @@ class boss_twilight_halion : public CreatureScript
                 halion->AddAura(SPELL_COPY_DAMAGE, me); // We use explicit targeting here to avoid conditions + SPELL_ATTR6_CANT_TARGET_SELF.
                 me->AddAura(SPELL_COPY_DAMAGE, halion);
                 me->AddAura(SPELL_DUSK_SHROUD, me);
-
                 me->SetHealth(halion->GetHealth());
-                me->SetPhaseMask(0x20, true);
                 me->SetReactState(REACT_AGGRESSIVE);
             }
+
+//[AZTH]
+            void Reset() override 
+            {
+                events.Reset();
+                me->SetPhaseMask(0x21, true);
+                me->SetInCombatWithZone();
+                me->SetPhaseMask(0x20, true);
+                me->SetReactState(REACT_DEFENSIVE);
+            }
+//[/AZTH]
 
             void EnterCombat(Unit* who) override
             {
@@ -483,7 +492,6 @@ class boss_twilight_halion : public CreatureScript
                 events.SetPhase(PHASE_TWO);
 
                 generic_halionAI::EnterCombat(who);
-
                 events.ScheduleEvent(EVENT_SOUL_CONSUMPTION, 20000);
 
                 instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me, 2);
