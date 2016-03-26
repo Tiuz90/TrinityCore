@@ -578,7 +578,8 @@ void Creature::Update(uint32 diff)
                 IsAIEnabled = true;
                 if (!IsInEvadeMode() && LastCharmerGUID)
                     if (Unit* charmer = ObjectAccessor::GetUnit(*this, LastCharmerGUID))
-                        i_AI->AttackStart(charmer);
+                        if (CanStartAttack(charmer, true))
+                            i_AI->AttackStart(charmer);
 
                 LastCharmerGUID.Clear();
             }
@@ -1356,8 +1357,8 @@ bool Creature::LoadCreatureFromDB(ObjectGuid::LowType spawnId, Map* map, bool ad
         m_deathState = DEAD;
         if (CanFly())
         {
-            float tz = map->GetHeight(GetPhaseMask(), data->posX, data->posY, data->posZ, false);
-            if (data->posZ - tz > 0.1f)
+            float tz = map->GetHeight(GetPhaseMask(), data->posX, data->posY, data->posZ, true, MAX_FALL_DISTANCE);
+            if (data->posZ - tz > 0.1f && Trinity::IsValidMapCoord(tz))
                 Relocate(data->posX, data->posY, tz);
         }
     }
@@ -2810,7 +2811,7 @@ bool Creature::FocusTarget(Spell const* focusSpell, WorldObject const* target)
     if (target)
         SetInFront(target);
     else if (!canTurnDuringCast)
-        if(Unit* victim = GetVictim())
+        if (Unit* victim = GetVictim())
             SetInFront(victim); // ensure server-side orientation is correct at beginning of cast
 
     if (!canTurnDuringCast)
