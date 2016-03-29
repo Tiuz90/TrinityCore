@@ -31,7 +31,7 @@ class ConfigMgr
 
 public:
     /// Method used only for loading main configuration files (authserver.conf and worldserver.conf)
-    bool LoadInitial(std::string const& file, std::string& error, /*[AZTH]*/ bool merge = false);
+    bool LoadInitial(std::string const& file, std::string const& fileDef, std::string& error);
 
     static ConfigMgr* instance();
 
@@ -46,7 +46,7 @@ public:
     std::list<std::string> GetKeysByString(std::string const& name);
 
 private:
-    std::string _filename;
+    std::string _filename, /*[AZTH]*/ _filenameDef;
     boost::property_tree::ptree _config;
     std::mutex _configLock;
 

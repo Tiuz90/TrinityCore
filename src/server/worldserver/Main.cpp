@@ -116,15 +116,9 @@ extern int main(int argc, char** argv)
         WinServiceRun();
 #endif
 
-    //[AZTH] Yehonal: load a default conf file before
-    std::string configErrorDist;
-    if (!sConfigMgr->LoadInitial(configFileDist, configErrorDist))
-    {
-        printf("Error in config file: %s\n", configErrorDist.c_str());
-    }
-
+    //[AZTH] Yehonal: load initial with default file ( dist )
     std::string configError;
-    if (!sConfigMgr->LoadInitial(configFile, configError,true))
+    if (!sConfigMgr->LoadInitial(configFile, configFileDist, configError,true))
     {
         printf("Error in config file: %s\n", configError.c_str());
         return 1;

@@ -25,31 +25,33 @@
 
 using namespace boost::property_tree;
 
-bool ConfigMgr::LoadInitial(std::string const& file, std::string& error, bool merge)
+// [AZTH] Yehonal: rewrited method to implement default conf loading
+bool ConfigMgr::LoadInitial(std::string const& file, std::string const& fileDef, std::string& error)
 {
     std::lock_guard<std::mutex> lock(_configLock);
 
     _filename = file;
+    _filenameDef = fileDef;
 
-    try
-    {
+    try {
         ptree fullTree;
+        ini_parser::read_ini(fileDef, fullTree);
+
+        // Since we're using only one section per config file, we skip the section and have direct property access
+        _config = fullTree.begin()->second;
+
         ini_parser::read_ini(file, fullTree);
 
-        if (fullTree.empty())
-        {
-            error = "empty file (" + file + ")";
-            return false;
+        if (!fullTree.empty()) {
+            // merge properties
+            BOOST_FOREACH(auto& update, fullTree.begin()->second) {
+                _config.put(ptree::path_type(update.first, '/'), update.second.data());
+            }
         }
 
-        if (_config.empty() || !merge) {
-            // Since we're using only one section per config file, we skip the section and have direct property access
-            _config = fullTree.begin()->second;
-        } else {
-            BOOST_FOREACH( auto& update, fullTree.begin()->second )
-            {
-               _config.put_child( update.first, update.second );
-            }
+        if (_config.empty()) {
+            error = "empty file (" + file + ")";
+            return false;
         }
     }
     catch (ini_parser::ini_parser_error const& e)
@@ -72,7 +74,7 @@ ConfigMgr* ConfigMgr::instance()
 
 bool ConfigMgr::Reload(std::string& error)
 {
-    return LoadInitial(_filename, error);
+    return LoadInitial(_filename, _filenameDef, error);
 }
 
 std::string ConfigMgr::GetStringDefault(std::string const& name, const std::string& def) const
