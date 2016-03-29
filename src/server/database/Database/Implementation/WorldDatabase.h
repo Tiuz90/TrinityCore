@@ -106,7 +106,7 @@ enum WorldDatabaseStatements
     MAX_WORLDDATABASE_STATEMENTS
 };
 
-class WorldDatabaseConnection : public MySQLConnection
+class TC_DATABASE_API WorldDatabaseConnection : public MySQLConnection
 {
 public:
     typedef WorldDatabaseStatements Statements;

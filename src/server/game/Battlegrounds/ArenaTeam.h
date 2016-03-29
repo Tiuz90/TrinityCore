@@ -88,7 +88,7 @@ enum ArenaTeamTypes
     ARENA_TEAM_5v5      = 5
 };
 
-struct ArenaTeamMember
+struct TC_GAME_API ArenaTeamMember
 {
     ObjectGuid Guid;
     std::string Name;
@@ -118,7 +118,7 @@ struct ArenaTeamStats
 #define MAX_ARENA_SLOT 4                                    // 0..3 slots
 //[/AZTH]
 
-class ArenaTeam
+class TC_GAME_API ArenaTeam
 {
     public:
         ArenaTeam();
