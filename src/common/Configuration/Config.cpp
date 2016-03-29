@@ -20,11 +20,12 @@
 #include <mutex>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/ini_parser.hpp>
+#include <boost/foreach.hpp>
 #include "Config.h"
 
 using namespace boost::property_tree;
 
-bool ConfigMgr::LoadInitial(std::string const& file, std::string& error)
+bool ConfigMgr::LoadInitial(std::string const& file, std::string& error, bool merge)
 {
     std::lock_guard<std::mutex> lock(_configLock);
 
@@ -41,8 +42,15 @@ bool ConfigMgr::LoadInitial(std::string const& file, std::string& error)
             return false;
         }
 
-        // Since we're using only one section per config file, we skip the section and have direct property access
-        _config = fullTree.begin()->second;
+        if (_config.empty() || !merge) {
+            // Since we're using only one section per config file, we skip the section and have direct property access
+            _config = fullTree.begin()->second;
+        } else {
+            BOOST_FOREACH( auto& update, fullTree.begin()->second )
+            {
+               _config.put_child( update.first, update.second );
+            }
+        }
     }
     catch (ini_parser::ini_parser_error const& e)
     {
