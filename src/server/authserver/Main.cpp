@@ -82,6 +82,11 @@ int main(int argc, char** argv)
     signal(SIGABRT, &Trinity::AbortHandler);
 
     std::string configFile = _TRINITY_REALM_CONFIG;
+
+    //[AZTH]
+    std::string configFileDist = _TRINITY_REALM_CONFIG;
+    configFileDist += ".dist";
+
     std::string configService;
     auto vm = GetConsoleArguments(argc, argv, configFile, configService);
     // exit if help or version is enabled
@@ -97,9 +102,14 @@ int main(int argc, char** argv)
         return WinServiceRun() ? 0 : 1;
 #endif
 
+    //[AZTH] Yehonal: load a default conf file before
+    std::string configErrorDist;
+    if (!sConfigMgr->LoadInitial(configFileDist, configErrorDist)) {
+        printf("Error in config file: %s\n", configErrorDist.c_str());
+    }
+
     std::string configError;
-    if (!sConfigMgr->LoadInitial(configFile, configError))
-    {
+    if (!sConfigMgr->LoadInitial(configFile, configError, true)) {
         printf("Error in config file: %s\n", configError.c_str());
         return 1;
     }
