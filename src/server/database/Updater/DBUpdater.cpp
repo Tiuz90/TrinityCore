@@ -245,7 +245,8 @@ bool DBUpdater<T>::Update(DatabaseWorkerPool<T>& pool)
             sConfigMgr->GetBoolDefault("Updates.Redundancy", true),
             sConfigMgr->GetBoolDefault("Updates.AllowRehash", true),
             sConfigMgr->GetBoolDefault("Updates.ArchivedRedundancy", false),
-            sConfigMgr->GetIntDefault("Updates.CleanDeadRefMaxCount", 3));
+            sConfigMgr->GetIntDefault("Updates.CleanDeadRefMaxCount", 3),
+            DBUpdater<T>::GetTableName().c_str() /* [AZTH] */);
     }
     catch (UpdateException&)
     {

@@ -27,6 +27,12 @@
 #include <unordered_map>
 #include <openssl/sha.h>
 
+//[AZTH]
+#include "Configuration/Config.h"
+#include <boost/algorithm/string.hpp>
+using namespace std;
+using namespace boost;
+
 using namespace boost::filesystem;
 
 UpdateFetcher::UpdateFetcher(Path const& sourceDirectory,
@@ -38,10 +44,10 @@ UpdateFetcher::UpdateFetcher(Path const& sourceDirectory,
 {
 }
 
-UpdateFetcher::LocaleFileStorage UpdateFetcher::GetFileList() const
+UpdateFetcher::LocaleFileStorage UpdateFetcher::GetFileList(string dbName /*[AZTH]*/) const
 {
     LocaleFileStorage files;
-    DirectoryStorage directories = ReceiveIncludedDirectories();
+    DirectoryStorage directories = ReceiveIncludedDirectories(dbName);
     for (auto const& entry : directories)
         FillFileListRecursively(entry.path, files, entry.state, 1);
 
@@ -81,7 +87,7 @@ void UpdateFetcher::FillFileListRecursively(Path const& path, LocaleFileStorage&
     }
 }
 
-UpdateFetcher::DirectoryStorage UpdateFetcher::ReceiveIncludedDirectories() const
+UpdateFetcher::DirectoryStorage UpdateFetcher::ReceiveIncludedDirectories(string dbName /*[AZTH]*/) const
 {
     DirectoryStorage directories;
 
@@ -111,6 +117,37 @@ UpdateFetcher::DirectoryStorage UpdateFetcher::ReceiveIncludedDirectories() cons
         TC_LOG_TRACE("sql.updates", "Added applied file \"%s\" from remote.", p.filename().generic_string().c_str());
 
     } while (result->NextRow());
+
+    // [AZTH] Yehonal: add some custom paths from config
+    if (dbName == "World") {
+        string custom_paths = sConfigMgr->GetStringDefault("Azth.Db.WorldCustomSqlPaths", "");
+        if (!custom_paths.empty()) {
+            typedef split_iterator<string::iterator> string_split_iterator;
+            for (string_split_iterator It =
+                    make_split_iterator(custom_paths, first_finder(",", is_iequal()));
+                    It != string_split_iterator();
+                    ++It) {
+                std::string path = copy_range<std::string>(*It);
+
+                if (path.substr(0, 1) == "$")
+                    path = _sourceDirectory.generic_string() + path.substr(1);
+
+                Path const p(path);
+
+                if (!is_directory(p)) {
+                    TC_LOG_WARN("sql.updates", "DBUpdater: Given update include directory \"%s\" isn't existing, skipped!", p.generic_string().c_str());
+                    continue;
+                }
+
+                DirectoryEntry const entry = {p, AppliedFileEntry::StateConvert("RELEASED")};
+                directories.push_back(entry);
+
+                TC_LOG_TRACE("sql.updates", "Added applied file \"%s\" from remote.", p.filename().generic_string().c_str());
+
+            }
+        }
+    }
+    // [/AZTH]
 
     return directories;
 }
@@ -163,9 +200,10 @@ std::string UpdateFetcher::ReadSQLUpdate(boost::filesystem::path const& file) co
 UpdateResult UpdateFetcher::Update(bool const redundancyChecks,
                                    bool const allowRehash,
                                    bool const archivedRedundancy,
-                                   int32 const cleanDeadReferencesMaxCount) const
+                                   int32 const cleanDeadReferencesMaxCount,
+                                   std::string dbName /*[AZTH]*/ ) const
 {
-    LocaleFileStorage const available = GetFileList();
+    LocaleFileStorage const available = GetFileList(dbName);
     AppliedFileStorage applied = ReceiveAppliedFiles();
 
     size_t countRecentUpdates = 0;
