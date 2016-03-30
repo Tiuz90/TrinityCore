@@ -1,0 +1,33 @@
+#!/bin/bash
+ 
+GDB_FILE="$2"
+CONFIG="$3"
+SYSLOG="$4"
+SYSERR="$5"
+GBD_ENABLED="$6"
+ 
+    echo "$GBD_ENABLED"
+
+if [ $GBD_ENABLED -eq 1 ]; then
+    echo "run -c $3" > $GDB_FILE
+    echo "bt" >> $GDB_FILE
+    echo "bt full" >> $GDB_FILE
+    echo "info threads" >> $GDB_FILE
+    echo "thread apply all bt full" >> $GDB_FILE
+    
+    [ ! -e $SYSLOG ] && echo "" > $SYSLOG
+    [ ! -e $SYSERR ] && echo "" > $SYSERR
+
+    gdb $1 -x $GDB_FILE --batch >> $SYSLOG 2>> $SYSERR
+    
+#    chmod +x $GDB_FILE
+#    mkdir -p ../../logs/crashes
+#    echo "running $1"
+#    gdb  $1 --batch -x $GDB_FILE | tee ../../logs/crashes/current
+#    FILE=$(date +%s)
+#    sed -i '1,/SERVERCRASHEVENT/d' ../../logs/crashes/current
+#    mv ../logs/crashes/current ../logs/crashes/$FILE".crash"
+#    find ../logs/crashes/ -name '*.crash' -and -size -10k -delete
+elif [ $GBD_ENABLED -eq 0 ]; then
+    "./$1" -c $CONFIG
+fi
