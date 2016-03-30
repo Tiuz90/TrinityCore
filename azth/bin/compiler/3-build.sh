@@ -15,3 +15,5 @@ time make -j $MTHREADS
 make -j $MTHREADS install
 
 cd $CWD
+
+runHooks "ON_AFTER_BUILD"
