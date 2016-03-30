@@ -19,7 +19,7 @@ set(WITH_SOURCE_TREE "no" CACHE STRING "Build the source tree for IDE's.")
 set_property(CACHE WITH_SOURCE_TREE PROPERTY STRINGS no flat hierarchical)
 option(WITHOUT_GIT      "Disable the GIT testing routines"                            0)
 # [AZTH]
-option(AZTH_WITH_TC_PLUGINS      "Include all azth TC plugins when compiling"         0)
-option(AZTH_WITH_PLUGINS         "Include all custom Azth plugins when compiling"     0)
+option(AZTH_WITH_PLUGINS         "Include all azth plugins when compiling"            0)
+option(AZTH_WITH_CUSTOM_PLUGINS  "Include all custom Azth plugins when compiling"     0)
 option(AZTH_WITH_UNIT_TEST       "Enable unit test at TC loading"                     0)
 # [/AZTH]

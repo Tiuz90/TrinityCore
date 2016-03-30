@@ -5,7 +5,7 @@
 void AddSC_azth_commandscript();
 /* This is where custom AzerothShard function scripts declarations should be added. */
 
-void AddAzthCustomScripts()
+void AddAzthScripts()
 {
     AddSC_azth_commandscript();
     /* This is where custom AzerothShard scripts should be added. */
