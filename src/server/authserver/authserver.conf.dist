@@ -38,7 +38,7 @@
 #                     Logs directory must exists, or log file creation will be disabled.
 #        Default:     "" - (Log files will be stored in the current path)
 
-LogsDir = ""
+LogsDir = "../../logs"
 
 #
 #    MaxPingTime
@@ -68,7 +68,7 @@ BindIP = "0.0.0.0"
 #        Example:     "./authserver.pid"  - (Enabled)
 #        Default:     ""                  - (Disabled)
 
-PidFile = ""
+PidFile = "auth.pid"
 
 #
 #    UseProcessors
@@ -104,7 +104,7 @@ RealmsStateUpdateDelay = 20
 #        Default:     0  - (Disabled)
 #                     1+ - (Enabled)
 
-WrongPass.MaxCount = 0
+WrongPass.MaxCount = 6
 
 #
 #    WrongPass.BanTime
@@ -120,7 +120,7 @@ WrongPass.BanTime = 600
 #        Default:     0 - (Ban IP)
 #                     1 - (Ban Account)
 
-WrongPass.BanType = 0
+WrongPass.BanType = 1
 
 #
 #    WrongPass.Logging
@@ -128,7 +128,7 @@ WrongPass.BanType = 0
 #        Default:     0 - (Disabled)
 #                     1 - (Enabled)
 
-WrongPass.Logging = 0
+WrongPass.Logging = 1
 
 #
 #    BanExpiryCheckInterval
@@ -144,7 +144,7 @@ BanExpiryCheckInterval = 60
 #        Example:     "../TrinityCore"
 #        Default:     ""
 
-SourceDirectory  = ""
+SourceDirectory  = "../../usr/server"
 
 #
 #    MySQLExecutable
@@ -155,7 +155,7 @@ SourceDirectory  = ""
 #                     "/usr/bin/mysql"
 #        Default:     ""
 
-MySQLExecutable = ""
+MySQLExecutable = "/usr/bin/mysql"
 
 #
 ###################################################################################################
@@ -173,7 +173,7 @@ MySQLExecutable = ""
 #                                                                           Unix/Linux)
 #        Default:     "127.0.0.1;3306;trinity;trinity;auth"
 
-LoginDatabaseInfo = "127.0.0.1;3306;trinity;trinity;auth"
+LoginDatabaseInfo = "127.0.0.1;3306;root;root;azth_auth"
 
 #
 #    LoginDatabase.WorkerThreads
@@ -198,7 +198,7 @@ LoginDatabase.WorkerThreads = 1
 #        Default:     0  - (All Disabled)
 #                     1  - (All Enabled)
 
-Updates.EnableDatabases = 0
+Updates.EnableDatabases = 1
 
 #
 #    Updates.AutoSetup
@@ -316,7 +316,7 @@ Updates.CleanDeadRefMaxCount = 3
 #
 
 Appender.Console=1,2,0
-Appender.Auth=2,2,0,Auth.log,w
+Appender.Auth=2,2,1,Auth.log,w
 
 #  Logger config values: Given a logger "name"
 #    Logger.name

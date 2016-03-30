@@ -352,6 +352,9 @@ class boss_hodir : public CreatureScript
             void EnterCombat(Unit* /*who*/) override
             {
                 _EnterCombat();
+//[AZTH]
+                me->SetReactState(REACT_AGGRESSIVE);
+//[/AZTH]
                 Talk(SAY_AGGRO);
                 DoCast(me, SPELL_BITING_COLD, true);
 

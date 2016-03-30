@@ -36,7 +36,7 @@ public:
         std::function<QueryResult(std::string const&)> const& retrieve);
 
     UpdateResult Update(bool const redundancyChecks, bool const allowRehash,
-                  bool const archivedRedundancy, int32 const cleanDeadReferencesMaxCount) const;
+                  bool const archivedRedundancy, int32 const cleanDeadReferencesMaxCount, std::string dbName /*[AZTH]*/) const;
 
 private:
     enum UpdateMode
@@ -104,11 +104,11 @@ private:
     typedef std::unordered_map<std::string, AppliedFileEntry> AppliedFileStorage;
     typedef std::vector<UpdateFetcher::DirectoryEntry> DirectoryStorage;
 
-    LocaleFileStorage GetFileList() const;
+    LocaleFileStorage GetFileList(std::string dbName/*[AZTH]*/) const;
     void FillFileListRecursively(Path const& path, LocaleFileStorage& storage,
         State const state, uint32 const depth) const;
 
-    DirectoryStorage ReceiveIncludedDirectories() const;
+    DirectoryStorage ReceiveIncludedDirectories(std::string dbName/*[AZTH]*/) const;
     AppliedFileStorage ReceiveAppliedFiles() const;
 
     std::string ReadSQLUpdate(Path const& file) const;

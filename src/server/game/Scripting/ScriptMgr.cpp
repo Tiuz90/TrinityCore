@@ -36,7 +36,7 @@
 #include "Chat.h"
 
 //[AZTH]
-#include "ModsMgr.h"
+#include "AzthSystem.h"
 
 // namespace
 // {
@@ -249,6 +249,12 @@ ScriptMgr::ScriptMgr() : _scriptCount(0), _scheduledScripts(0)
 
 ScriptMgr::~ScriptMgr() { }
 
+ScriptMgr* ScriptMgr::instance()
+{
+    static ScriptMgr instance;
+    return &instance;
+}
+
 void ScriptMgr::Initialize()
 {
     uint32 oldMSTime = getMSTime();
@@ -261,7 +267,7 @@ void ScriptMgr::Initialize()
     AddScripts();
 
     // [AZTH]
-    sModsMgr->Initialization();
+    sAzthPlg->Initialization();
     // [/AZTH]
     
 #ifdef SCRIPTS
@@ -506,17 +512,6 @@ void ScriptMgr::OnPacketSend(WorldSession* session, WorldPacket const& packet)
 
     WorldPacket copy(packet);
     FOREACH_SCRIPT(ServerScript)->OnPacketSend(session, copy);
-}
-
-void ScriptMgr::OnUnknownPacketReceive(WorldSession* session, WorldPacket const& packet)
-{
-    ASSERT(session);
-
-    if (SCR_REG_LST(ServerScript).empty())
-        return;
-
-    WorldPacket copy(packet);
-    FOREACH_SCRIPT(ServerScript)->OnUnknownPacketReceive(session, copy);
 }
 
 void ScriptMgr::OnOpenStateChange(bool open)
@@ -1687,6 +1682,19 @@ GroupScript::GroupScript(const char* name)
     ScriptRegistry<GroupScript>::AddScript(this);
 }
 
+//[AZTH]
+AzerothPlugins::AzerothPlugins(const char* name)
+    : ScriptObject(name)
+{
+    ScriptRegistry<AzerothPlugins>::AddScript(this);
+}
+
+void ScriptMgr::onTest()
+{
+    FOREACH_SCRIPT(AzerothPlugins)->onTest();
+}
+//[AZTH]
+
 // Instantiate static members of ScriptRegistry.
 template<class TScript> std::map<uint32, TScript*> ScriptRegistry<TScript>::ScriptPointerList;
 template<class TScript> std::vector<TScript*> ScriptRegistry<TScript>::Scripts;
@@ -1719,6 +1727,9 @@ template class ScriptRegistry<GuildScript>;
 template class ScriptRegistry<GroupScript>;
 template class ScriptRegistry<UnitScript>;
 template class ScriptRegistry<AccountScript>;
+//[AZTH]
+template class ScriptRegistry<AzerothPlugins>;
+//[AZTH]
 
 // Undefine utility macros.
 #undef GET_SCRIPT_RET

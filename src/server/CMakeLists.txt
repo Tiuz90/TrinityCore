@@ -18,13 +18,23 @@ if(CMAKE_COMPILER_IS_GNUCXX AND NOT MINGW)
   add_definitions(-fno-delete-null-pointer-checks)
 endif()
 
+
 set(sources_windows_Debugging
   ${CMAKE_SOURCE_DIR}/src/common/Debugging/WheatyExceptionReport.cpp
   ${CMAKE_SOURCE_DIR}/src/common/Debugging/WheatyExceptionReport.h
 )
 
 # [AZTH]
-include(${CMAKE_SOURCE_DIR}/azth/src/CMakeLists.txt)
+include(${CMAKE_SOURCE_DIR}/azth/CMakeLists.txt)
+
+if(WIN32)
+  set(sources_windows
+    ${CMAKE_SOURCE_DIR}/src/common/Debugging/WheatyExceptionReport.cpp
+    ${CMAKE_SOURCE_DIR}/src/common/Debugging/WheatyExceptionReport.h
+    ${CMAKE_SOURCE_DIR}/src/common/Platform/ServiceWin32.cpp
+    ${CMAKE_SOURCE_DIR}/src/common/Platform/ServiceWin32.h
+  )
+endif(WIN32)
 
 add_subdirectory(database)
 add_subdirectory(shared)
@@ -34,5 +44,5 @@ add_subdirectory(scripts)
 add_subdirectory(worldserver)
 
 # [AZTH]
-LOAD_AZTH_MODS()
+LOAD_AZTH_MODULE()
 

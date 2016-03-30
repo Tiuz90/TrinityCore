@@ -1,7 +1,0 @@
-set(hw2targets
-  hw2game
-  #hw2lib
-  hw2scripts
-  hw2server
-  hw2shared
-)

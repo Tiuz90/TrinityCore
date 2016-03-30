@@ -20,29 +20,52 @@
 #include <mutex>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/ini_parser.hpp>
+#include <boost/foreach.hpp>
 #include "Config.h"
 
 using namespace boost::property_tree;
 
-bool ConfigMgr::LoadInitial(std::string const& file, std::string& error)
+// [AZTH] Yehonal: rewrited method to implement default/private conf loading
+bool ConfigMgr::LoadInitial(std::string const& file, std::string const& fileDef, std::string& error)
 {
     std::lock_guard<std::mutex> lock(_configLock);
 
     _filename = file;
+    _filenameDef = fileDef;
 
-    try
-    {
+    try {
         ptree fullTree;
-        ini_parser::read_ini(file, fullTree);
-
-        if (fullTree.empty())
-        {
-            error = "empty file (" + file + ")";
-            return false;
-        }
+        ini_parser::read_ini(fileDef, fullTree);
 
         // Since we're using only one section per config file, we skip the section and have direct property access
         _config = fullTree.begin()->second;
+
+        ini_parser::read_ini(file, fullTree);
+
+        if (!fullTree.empty()) {
+            // merge properties
+            BOOST_FOREACH(auto& update, fullTree.begin()->second) {
+                _config.put(ptree::path_type(update.first, '/'), update.second.data());
+            }
+        }
+
+        // Private conf
+        std::string _privConf=this->GetStringDefault("Azth.Conf.Private","");
+        if (!_privConf.empty()) {
+          ini_parser::read_ini(_privConf, fullTree);
+
+          if (!fullTree.empty()) {
+              // merge properties
+              BOOST_FOREACH(auto& update, fullTree.begin()->second) {
+                  _config.put(ptree::path_type(update.first, '/'), update.second.data());
+              }
+          }
+        }
+
+        if (_config.empty()) {
+            error = "empty file (" + file + ")";
+            return false;
+        }
     }
     catch (ini_parser::ini_parser_error const& e)
     {
@@ -56,9 +79,15 @@ bool ConfigMgr::LoadInitial(std::string const& file, std::string& error)
     return true;
 }
 
+ConfigMgr* ConfigMgr::instance()
+{
+    static ConfigMgr instance;
+    return &instance;
+}
+
 bool ConfigMgr::Reload(std::string& error)
 {
-    return LoadInitial(_filename, error);
+    return LoadInitial(_filename, _filenameDef, error);
 }
 
 std::string ConfigMgr::GetStringDefault(std::string const& name, const std::string& def) const

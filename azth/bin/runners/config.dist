@@ -1,0 +1,17 @@
+#!/bin/bash
+
+######################
+export GDB_ENABLED=0
+export GDB="auth.gdb"
+export SERVERPID="auth.pid" ### Put here the pid you configured on your worldserver.conf file ###
+ 
+export CONFIG="path/to/authserver.conf"
+export SERVERBIN="authserver"
+ 
+export SCREEN_NAME="authserver"
+
+export LOGS_PATH="./logs/";
+ 
+######################
+
+

@@ -261,6 +261,10 @@ class boss_razorscale_controller : public CreatureScript
                             {
                                 if (GameObject* BrokenHarpoon = Harpoon->FindNearestGameObject(GO_RAZOR_BROKEN_HARPOON, 5.0f)) //only nearest broken harpoon
                                     BrokenHarpoon->RemoveFromWorld();
+//[AZTH]
+                                if (Unit* owner = Harpoon->GetOwner())
+                                    owner->RemoveGameObject(Harpoon, false);
+//[/AZTH]
                                 events.ScheduleEvent(EVENT_BUILD_HARPOON_2, 20000);
                                 events.CancelEvent(EVENT_BUILD_HARPOON_1);
                             }
@@ -271,6 +275,10 @@ class boss_razorscale_controller : public CreatureScript
                             {
                                 if (GameObject* BrokenHarpoon = Harpoon->FindNearestGameObject(GO_RAZOR_BROKEN_HARPOON, 5.0f))
                                     BrokenHarpoon->RemoveFromWorld();
+//[AZTH]
+                                if (Unit* owner = Harpoon->GetOwner())
+                                    owner->RemoveGameObject(Harpoon, false);
+//[/AZTH]
                                 events.CancelEvent(EVENT_BUILD_HARPOON_2);
                             }
                             return;
@@ -280,6 +288,10 @@ class boss_razorscale_controller : public CreatureScript
                             {
                                 if (GameObject* BrokenHarpoon = Harpoon->FindNearestGameObject(GO_RAZOR_BROKEN_HARPOON, 5.0f))
                                     BrokenHarpoon->RemoveFromWorld();
+//[AZTH]
+                                if (Unit* owner = Harpoon->GetOwner())
+                                    owner->RemoveGameObject(Harpoon, false);
+//[/AZTH]
                                 events.ScheduleEvent(EVENT_BUILD_HARPOON_4, 20000);
                                 events.CancelEvent(EVENT_BUILD_HARPOON_3);
                             }
@@ -290,6 +302,10 @@ class boss_razorscale_controller : public CreatureScript
                             {
                                 if (GameObject* BrokenHarpoon = Harpoon->FindNearestGameObject(GO_RAZOR_BROKEN_HARPOON, 5.0f))
                                     BrokenHarpoon->RemoveFromWorld();
+//[AZTH]
+                                if (Unit* owner = Harpoon->GetOwner())
+                                    owner->RemoveGameObject(Harpoon, false);
+//[/AZTH]
                                 events.CancelEvent(EVENT_BUILD_HARPOON_4);
                             }
                             return;

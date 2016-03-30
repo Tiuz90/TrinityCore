@@ -76,11 +76,17 @@ boost::asio::deadline_timer* _dbPingTimer;
 uint32 _dbPingInterval;
 boost::asio::deadline_timer* _banExpiryCheckTimer;
 uint32 _banExpiryCheckInterval;
-LoginDatabaseWorkerPool LoginDatabase;
 
 int main(int argc, char** argv)
 {
+    signal(SIGABRT, &Trinity::AbortHandler);
+
     std::string configFile = _TRINITY_REALM_CONFIG;
+
+    //[AZTH]
+    std::string configFileDist = _TRINITY_REALM_CONFIG;
+    configFileDist += ".dist";
+
     std::string configService;
     auto vm = GetConsoleArguments(argc, argv, configFile, configService);
     // exit if help or version is enabled
@@ -96,8 +102,9 @@ int main(int argc, char** argv)
         return WinServiceRun() ? 0 : 1;
 #endif
 
+    //[AZTH] Yehonal: load initial with default file ( dist )
     std::string configError;
-    if (!sConfigMgr->LoadInitial(configFile, configError))
+    if (!sConfigMgr->LoadInitial(configFile, configFileDist, configError))
     {
         printf("Error in config file: %s\n", configError.c_str());
         return 1;
@@ -134,7 +141,7 @@ int main(int argc, char** argv)
     // Get the list of realms for the server
     sRealmList->Initialize(*_ioService, sConfigMgr->GetIntDefault("RealmsStateUpdateDelay", 20));
 
-    if (sRealmList->size() == 0)
+    if (sRealmList->GetRealms().empty())
     {
         TC_LOG_ERROR("server.authserver", "No valid realms specified.");
         StopDB();
@@ -193,6 +200,8 @@ int main(int argc, char** argv)
     _dbPingTimer->cancel();
 
     sAuthSocketMgr.StopNetwork();
+
+    sRealmList->Close();
 
     // Close the Database Pool and library
     StopDB();

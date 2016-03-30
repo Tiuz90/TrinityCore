@@ -318,7 +318,7 @@ class boss_xt002 : public CreatureScript
                     DoMeleeAttackIfReady();
             }
 
-            void PassengerBoarded(Unit* who, int8 /*seatId*/, bool apply) override
+            void PassengerBoarded(Unit* who, int8 seatId, bool apply) override
             {
                 if (apply && who->GetEntry() == NPC_XS013_SCRAPBOT)
                 {
@@ -329,6 +329,10 @@ class boss_xt002 : public CreatureScript
                     Talk(EMOTE_SCRAPBOT);
                     _healthRecovered = true;
                 }
+//[AZTH]                
+                if (apply && who->GetEntry() == NPC_XT002_HEART && seatId == HEART_VEHICLE_SEAT_EXPOSED)
+                    who->CastSpell(who, SPELL_EXPOSED_HEART, false);    //Channeled
+//[/AZTH]
             }
 
             uint32 GetData(uint32 type) const override
@@ -374,7 +378,6 @@ class boss_xt002 : public CreatureScript
                     heart->CastSpell(heart, SPELL_HEART_OVERLOAD, false);
                     heart->CastSpell(me, SPELL_HEART_LIGHTNING_TETHER, false);
                     heart->CastSpell(heart, SPELL_HEART_HEAL_TO_FULL, true);
-                    heart->CastSpell(heart, SPELL_EXPOSED_HEART, false);    // Channeled
                     heart->ChangeSeat(HEART_VEHICLE_SEAT_EXPOSED, true);
                     heart->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NOT_SELECTABLE);
                     heart->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_UNK_29);
@@ -637,7 +640,7 @@ class BoomEvent : public BasicEvent
         {
         }
 
-        bool Execute(uint64 /*time*/, uint32 /*diff*/)
+        bool Execute(uint64 /*time*/, uint32 /*diff*/) override
         {
             // This hack is here because we suspect our implementation of spell effect execution on targets
             // is done in the wrong order. We suspect that EFFECT_0 needs to be applied on all targets,

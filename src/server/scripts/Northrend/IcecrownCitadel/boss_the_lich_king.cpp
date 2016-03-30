@@ -437,7 +437,7 @@ class StartMovementEvent : public BasicEvent
         {
         }
 
-        bool Execute(uint64 /*time*/, uint32 /*diff*/)
+        bool Execute(uint64 /*time*/, uint32 /*diff*/) override
         {
             _owner->SetReactState(REACT_AGGRESSIVE);
             if (Creature* _summoner = ObjectAccessor::GetCreature(*_owner, _summonerGuid))
@@ -459,7 +459,7 @@ class VileSpiritActivateEvent : public BasicEvent
         {
         }
 
-        bool Execute(uint64 /*time*/, uint32 /*diff*/)
+        bool Execute(uint64 /*time*/, uint32 /*diff*/) override
         {
             _owner->SetReactState(REACT_AGGRESSIVE);
             _owner->CastSpell(_owner, SPELL_VILE_SPIRIT_MOVE_SEARCH, true);
@@ -479,7 +479,7 @@ class TriggerWickedSpirit : public BasicEvent
         {
         }
 
-        bool Execute(uint64 /*time*/, uint32 /*diff*/)
+        bool Execute(uint64 /*time*/, uint32 /*diff*/) override
         {
             _owner->CastCustomSpell(SPELL_TRIGGER_VILE_SPIRIT_HEROIC, SPELLVALUE_MAX_TARGETS, 1, NULL, true);
 
@@ -1449,6 +1449,12 @@ class npc_valkyr_shadowguard : public CreatureScript
                 me->SetReactState(REACT_PASSIVE);
                 DoCast(me, SPELL_WINGS_OF_THE_DAMNED, false);
                 me->SetSpeed(MOVE_FLIGHT, 0.642857f, true);
+//[AZTH]
+				me->SetHover(true);
+				me->SetDisableGravity(true);
+				me->ClearUnitState(UNIT_STATE_IGNORE_PATHFINDING);
+				me->AddUnitState(UNIT_STATE_IGNORE_PATHFINDING);
+//[/AZTH]
             }
 
             void IsSummonedBy(Unit* /*summoner*/) override
@@ -1458,7 +1464,7 @@ class npc_valkyr_shadowguard : public CreatureScript
             }
 
             void DamageTaken(Unit* /*attacker*/, uint32& damage) override
-            {
+            {               
                 if (!IsHeroic())
                     return;
 
@@ -1494,8 +1500,15 @@ class npc_valkyr_shadowguard : public CreatureScript
                 switch (id)
                 {
                     case POINT_DROP_PLAYER:
-                        DoCastAOE(SPELL_EJECT_ALL_PASSENGERS);
-                        me->DespawnOrUnsummon(1000);
+//[AZTH]
+						// When CC Val'kyr or grip or snare, the MovementInform() was called and interpreted as a reached dropPoint
+                        if (!me->GetDistance(_dropPoint))
+						{
+							DoCastAOE(SPELL_EJECT_ALL_PASSENGERS);
+							me->DespawnOrUnsummon(1000);
+                        } else
+                            _events.ScheduleEvent(EVENT_MOVE_TO_DROP_POS, 500);
+//[/AZTH]
                         break;
                     case POINT_CHARGE:
                         if (Player* target = ObjectAccessor::GetPlayer(*me, _grabbedPlayer))
@@ -1511,6 +1524,9 @@ class npc_valkyr_shadowguard : public CreatureScript
 
                                 triggers.sort(Trinity::ObjectDistanceOrderPred(me));
                                 DoCast(target, SPELL_VALKYR_CARRY);
+//[AZTH]
+								me->SetSpeed(MOVE_RUN, 0.642857f, true);
+//[/AZTH]
                                 _dropPoint.Relocate(triggers.front());
                                 _events.ScheduleEvent(EVENT_MOVE_TO_DROP_POS, 1500);
 
@@ -1538,6 +1554,10 @@ class npc_valkyr_shadowguard : public CreatureScript
 
                 if (me->HasUnitState(UNIT_STATE_CASTING))
                     return;
+//[AZTH]
+                if (me->HasAuraType(SPELL_AURA_MOD_STUN))
+                    return;
+//[/AZTH]
 
                 while (uint32 eventId = _events.ExecuteEvent())
                 {
@@ -1551,7 +1571,9 @@ class npc_valkyr_shadowguard : public CreatureScript
                             }
                             break;
                         case EVENT_MOVE_TO_DROP_POS:
+//[AZTH]
                             me->GetMotionMaster()->MovePoint(POINT_DROP_PLAYER, _dropPoint);
+//[/AZTH]
                             break;
                         case EVENT_LIFE_SIPHON:
                             if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 1))
@@ -2566,7 +2588,9 @@ class spell_the_lich_king_valkyr_target_search : public SpellScriptLoader
             void HandleScript(SpellEffIndex effIndex)
             {
                 PreventHitDefaultEffect(effIndex);
-                GetCaster()->CastSpell(GetHitUnit(), SPELL_CHARGE, true);
+//[AZTH]
+                GetCaster()->GetMotionMaster()->MoveCharge(GetHitUnit()->GetPositionX(), GetHitUnit()->GetPositionY(), GetHitUnit()->GetPositionZ(), 1000.0f, 1003U, true);
+//[/AZTH]
             }
 
             void Register() override

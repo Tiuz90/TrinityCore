@@ -196,6 +196,7 @@ include_directories(
   ${CMAKE_SOURCE_DIR}/src/server/shared/Dynamic/LinkedReference
   ${CMAKE_SOURCE_DIR}/src/server/shared/Networking
   ${CMAKE_SOURCE_DIR}/src/server/shared/Packets
+  ${CMAKE_SOURCE_DIR}/src/server/shared/Realm
   ${MYSQL_INCLUDE_DIR}
   ${OPENSSL_INCLUDE_DIR}
   ${VALGRIND_INCLUDE_DIR}
@@ -212,6 +213,14 @@ add_library(game STATIC
 target_link_libraries(game
   azth_mod
 )
+
+IF(AZTH_SCRIPT_MGR_TC)
+	target_compile_definitions(game PRIVATE AZTH_SCRIPT_MGR_TC=1)
+ENDIF()
+IF(AZTH_SCRIPT_MGR_CUSTOM)
+	target_compile_definitions(game PRIVATE AZTH_SCRIPT_MGR_CUSTOM=1)
+ENDIF()
+
 
 # Generate precompiled header
 if (USE_COREPCH)
