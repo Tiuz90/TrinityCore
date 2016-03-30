@@ -107,11 +107,21 @@ UPDATE `rbac_linked_permissions` SET `id` = 200000 WHERE `id` < 100000 AND `link
 SET FOREIGN_KEY_CHECKS=1; -- re-enable foreign key check
 
 # Add default permissions
+# test
 DELETE FROM `rbac_default_permissions` WHERE `permissionId` >= 100000;
-INSERT INTO `rbac_default_permissions` (`secId`, `permissionId`, `realmId`) VALUES ('0', '100011', 2); 
-INSERT INTO `rbac_default_permissions` (`secId`, `permissionId`, `realmId`) VALUES ('1', '100013', 2); 
-INSERT INTO `rbac_default_permissions` (`secId`, `permissionId`, `realmId`) VALUES ('2', '100014', 2); 
-INSERT INTO `rbac_default_permissions` (`secId`, `permissionId`) VALUES ('0', '100012'); 
+INSERT INTO `rbac_default_permissions` (`secId`, `permissionId`, `realmId`) VALUES ('0', '100011', 2);
+INSERT INTO `rbac_default_permissions` (`secId`, `permissionId`, `realmId`) VALUES ('1', '100013', 2);
+INSERT INTO `rbac_default_permissions` (`secId`, `permissionId`, `realmId`) VALUES ('2', '100014', 2);
+# development
+INSERT INTO `rbac_default_permissions` (`secId`, `permissionId`, `realmId`) VALUES ('0', '100011', 3);
+INSERT INTO `rbac_default_permissions` (`secId`, `permissionId`, `realmId`) VALUES ('1', '100013', 3);
+INSERT INTO `rbac_default_permissions` (`secId`, `permissionId`, `realmId`) VALUES ('2', '100014', 3);
+# next
+INSERT INTO `rbac_default_permissions` (`secId`, `permissionId`, `realmId`) VALUES ('0', '100011', 4);
+INSERT INTO `rbac_default_permissions` (`secId`, `permissionId`, `realmId`) VALUES ('1', '100013', 4);
+INSERT INTO `rbac_default_permissions` (`secId`, `permissionId`, `realmId`) VALUES ('2', '100014', 4);
+
+INSERT INTO `rbac_default_permissions` (`secId`, `permissionId`) VALUES ('0', '100012');
 
 # Query to check current used permissions
 # SELECT * FROM rbac_permissions WHERE id IN (SELECT linkedId FROM rbac_linked_permissions WHERE id >= 100000);
@@ -214,6 +224,7 @@ INSERT INTO `rbac_linked_permissions` VALUES
 # [100001] TIER 1: Supporter
 (100001, 100000), # inheriting from TIER 0
 (100001, 743),    # Command: ticket assign
+(100001, 515),    # Command: mute
 
 # [100002] TIER 2: Protector - Moderator
 (100002, 193),    # inheriting from GM 2
@@ -232,7 +243,6 @@ INSERT INTO `rbac_linked_permissions` VALUES
 (100002, 542),    # Command: morph
 (100002, 543),    # Command: demorph
 (100002, 532),    # Command: unmute
-(100002, 515),    # Command: mute
 
 # [100003] TIER 3
 (100003, 193),    # inheriting from GM LVL 2
