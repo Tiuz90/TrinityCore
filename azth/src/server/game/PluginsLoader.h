@@ -9,12 +9,13 @@
 
 void AzthAddPlg() {
     /* This is where mods should be added. */
-#ifdef AZTH_WITH_PLUGINS
-    AddAzthCustomScripts();
-#endif
 
-#ifdef AZTH_WITH_TC_PLUGINS
-    AddTcCustomScripts();
+#ifdef AZTH_WITH_PLUGINS
+    AddAzthScripts();
+#endif
+    
+#ifdef AZTH_WITH_CUSTOM_PLUGINS
+    AddAzthCustomScripts();
 #endif
 
 #ifdef AZTH_WITH_UNIT_TEST

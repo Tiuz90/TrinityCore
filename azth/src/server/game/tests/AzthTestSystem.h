@@ -6,8 +6,9 @@
 #ifdef AZTH_WITH_PLUGINS
     #include "AzthPlgTests.h"
 #endif
-#ifdef AZTH_WITH_TC_PLUGINS
-    #include "AzthPlgTcTests.h"
+
+#ifdef AZTH_WITH_CUSTOM_PLUGINS
+    #include "AzthCustomPlgTests.h"
 #endif
 
 #endif	/* AZTHTESTSYSTEM_H */

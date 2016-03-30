@@ -25,7 +25,7 @@ set(sources_windows_Debugging
 )
 
 # [AZTH]
-include(${CMAKE_SOURCE_DIR}/azth/src/CMakeLists.txt)
+include(${CMAKE_SOURCE_DIR}/azth/CMakeLists.txt)
 
 if(WIN32)
   set(sources_windows

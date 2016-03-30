@@ -7,7 +7,7 @@ MACRO(AZTH_LOAD_SRC dir)
     AZTH_SUBDIRLIST(sub_DIRS  "${CMAKE_AZTH_SRC_DIR}/server/${dir}" TRUE TRUE)
     FOREACH(subdir ${sub_DIRS})
         get_filename_component(azth_dir_name ${subdir} DIRECTORY)
-        
+
         if (NOT (${azth_dir_name} STREQUAL "tests") OR AZTH_WITH_UNIT_TEST)
             file(GLOB sources "${subdir}/*.cpp" "${subdir}/*.h")
 
@@ -28,11 +28,7 @@ AZTH_LOAD_SRC("libs")
 AZTH_LOAD_SRC("game")
 
 IF (AZTH_WITH_PLUGINS)
-    AZTH_LOAD_SRC("plugins-azth")
-ENDIF()
-
-IF (AZTH_WITH_TC_PLUGINS)
-    AZTH_LOAD_SRC("plugins-tc")
+    AZTH_LOAD_SRC("plugins")
 ENDIF()
 
 AZTH_ADD_INC_PATH("${azth_DIRS}")
