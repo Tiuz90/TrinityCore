@@ -13,11 +13,11 @@ function checkStatus() {
 
 function run() {
     TRACE_BEGIN_STRING="SIGSEGV"
-    TRACE_FILE="../../logs/"$SCREEN_NAME"_trace.log"
-    ERR_FILE="../../logs/"$SCREEN_NAME"_error.log"
-    SYSLOG="../../logs/"$SCREEN_NAME"_system.log"
-    SYSERR="../../logs/"$SCREEN_NAME"_system.err"
-    LINKS_FILE="../../logs/"$SCREEN_NAME"_crash_links.link"
+    TRACE_FILE="$LOGS_PATH/"$SCREEN_NAME"_trace.log"
+    ERR_FILE="$LOGS_PATH/"$SCREEN_NAME"_error.log"
+    SYSLOG="$LOGS_PATH/"$SCREEN_NAME"_system.log"
+    SYSERR="$LOGS_PATH/"$SCREEN_NAME"_system.err"
+    LINKS_FILE="$LOGS_PATH/"$SCREEN_NAME"_crash_links.link"
 
     while :
     do
