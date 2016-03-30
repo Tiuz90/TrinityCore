@@ -3604,7 +3604,7 @@ PacketSpoof.BanDuration = 86400
 #      Description: Comma-separated list of custom path for world custom sql files
 #
 
-Azth.Db.WorldCustomSqlPaths="$/azth/data/sql/content/world/"
+Azth.Db.WorldCustomSqlPaths="$/azth/data/sql/db-world/"
 
 #
 #
