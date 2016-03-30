@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. "defines.sh"
+. "includes/includes.sh"
 
 CWD=$(pwd)
 

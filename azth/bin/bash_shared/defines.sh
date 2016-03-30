@@ -1,0 +1,3 @@
+AZTH_PATH_ROOT=$(readlink -f "$AZTH_PATH_BIN/../")
+
+AZTH_PATH_CONF="$AZTH_PATH_ROOT/conf"

@@ -1,17 +1,5 @@
 #!/bin/bash
 
-source "../bash_shared/functions.sh"
-
-source ./config.sh.dist # "hack" to avoid missing conf variables
-
-source ./config.sh # should overwrite previous
-
-customFile="../../../azth_custom/bin/compiler/custom.sh"
-if [ -f $customFile ]
-then
-  source $customFile
-fi
-
 # you can choose build type from cmd argument
 if [ ! -z $1 ]
 then

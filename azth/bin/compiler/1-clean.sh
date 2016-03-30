@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. "defines.sh"
+. "includes/includes.sh"
 
 echo "Cleaning build files"
 
@@ -13,4 +13,3 @@ make clean
 find -iname '*cmake*' -not -name CMakeLists.txt -exec rm -rf {} \+
 
 cd $CWD
-

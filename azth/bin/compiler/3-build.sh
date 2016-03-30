@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. "defines.sh"
+. "includes/includes.sh"
 
 
 [ $MTHREADS == 0 ] && MTHREADS=`grep -c ^processor /proc/cpuinfo` && MTHREADS=$(($MTHREADS + 2))
