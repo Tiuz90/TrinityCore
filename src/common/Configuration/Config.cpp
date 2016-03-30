@@ -25,7 +25,7 @@
 
 using namespace boost::property_tree;
 
-// [AZTH] Yehonal: rewrited method to implement default conf loading
+// [AZTH] Yehonal: rewrited method to implement default/private conf loading
 bool ConfigMgr::LoadInitial(std::string const& file, std::string const& fileDef, std::string& error)
 {
     std::lock_guard<std::mutex> lock(_configLock);
@@ -47,6 +47,19 @@ bool ConfigMgr::LoadInitial(std::string const& file, std::string const& fileDef,
             BOOST_FOREACH(auto& update, fullTree.begin()->second) {
                 _config.put(ptree::path_type(update.first, '/'), update.second.data());
             }
+        }
+
+        // Private conf
+        std::string _privConf=this->GetStringDefault("Azth.Conf.Private","");
+        if (!_privConf.empty()) {
+          ini_parser::read_ini(_privConf, fullTree);
+
+          if (!fullTree.empty()) {
+              // merge properties
+              BOOST_FOREACH(auto& update, fullTree.begin()->second) {
+                  _config.put(ptree::path_type(update.first, '/'), update.second.data());
+              }
+          }
         }
 
         if (_config.empty()) {
