@@ -3598,11 +3598,13 @@ PacketSpoof.BanDuration = 86400
 
 ###################################################################################################
 # AZTH CONFIGURATIONS
-#   Azth.Db.CustomPaths
-#      Description: Comma-separated list of custom path for world custom sql files
+#   Azth.Db.[Database]CustomPaths
+#      Description: Comma-separated list of custom path for custom sql files
 #
 
 Azth.Db.WorldCustomSqlPaths="$/azth/data/sql/db-world/,$/azth_custom/data/sql/db-world/"
+Azth.Db.AuthCustomSqlPaths="$/azth/data/sql/db-auth/,$/azth_custom/data/sql/db-auth/"
+Azth.Db.CharacterCustomSqlPaths="$/azth/data/sql/db-characters/,$/azth_custom/data/sql/db-characters/"
 
 #
 #
