@@ -1,0 +1,79 @@
+#!/bin/bash
+
+source ./config.dist
+
+function checkStatus() {
+        if [ -d "/proc/"$1 ]; then
+                eval "TEST=1"
+        else
+                eval "TEST=0"
+        fi
+}
+
+function starter() {
+    GDB_FILE="$2"
+    CONFIG="$3"
+    SYSLOG="$4"
+    SYSERR="$5"
+    GBD_ENABLED="$6"
+
+    echo "$GBD_ENABLED"
+
+    if [ $GBD_ENABLED -eq 1 ]; then
+        echo "run -c $3" > $GDB_FILE
+        echo "bt" >> $GDB_FILE
+        echo "bt full" >> $GDB_FILE
+        echo "info threads" >> $GDB_FILE
+        echo "thread apply all bt full" >> $GDB_FILE
+
+        [ ! -e $SYSLOG ] && echo "" > $SYSLOG
+        [ ! -e $SYSERR ] && echo "" > $SYSERR
+
+        gdb $1 -x $GDB_FILE --batch --args "-c $CONFIG" >> $SYSLOG 2>> $SYSERR
+
+    #    chmod +x $GDB_FILE
+    #    mkdir -p ../../logs/crashes
+    #    echo "running $1"
+    #    gdb  $1 --batch -x $GDB_FILE | tee ../../logs/crashes/current
+    #    FILE=$(date +%s)
+    #    sed -i '1,/SERVERCRASHEVENT/d' ../../logs/crashes/current
+    #    mv ../logs/crashes/current ../logs/crashes/$FILE".crash"
+    #    find ../logs/crashes/ -name '*.crash' -and -size -10k -delete
+    elif [ $GBD_ENABLED -eq 0 ]; then
+        "./$1" -c $CONFIG
+    fi
+}
+
+
+function restarter() {
+    TRACE_BEGIN_STRING="SIGSEGV"
+    TRACE_FILE="$LOGS_PATH/"$SCREEN_NAME"_trace.log"
+    ERR_FILE="$LOGS_PATH/"$SCREEN_NAME"_error.log"
+    SYSLOG="$LOGS_PATH/"$SCREEN_NAME"_system.log"
+    SYSERR="$LOGS_PATH/"$SCREEN_NAME"_system.err"
+    LINKS_FILE="$LOGS_PATH/"$SCREEN_NAME"_crash_links.link"
+
+    while :
+    do
+            PID=$(cat $SERVERPID)
+            checkStatus $PID
+            if [ $TEST -eq 0 ]; then
+                    DATE=$(date)
+                    echo "Restarting $SCREEN_NAME Core blizz($DATE)"
+                    if [ $GDB_ENABLED -eq 1 ]; then
+                            echo "GDB enabled"
+                            grep -B 10 -A 1800 "$TRACE_BEGIN_STRING" "$SYSLOG" >> "$TRACE_FILE"
+                            #echo "------------------`date+%Y-%m-%d-%H-%M-%S`------------------" >> "$TRACE_FILE"
+                            cat "$SYSERR" > "$ERR_FILE"
+                            screen -A -m -d -S $SCREEN_NAME starter $SERVERBIN $GDB "$CONFIG" "$SYSLOG" "$SYSERR" 1
+                    fi
+
+                    if [ $GDB_ENABLED -eq 0 ]; then
+                            echo "GDB disabled"
+                            screen -A -m -d -S $SCREEN_NAME starter $SERVERBIN null "$CONFIG" null null 0
+                    fi
+            fi
+
+            sleep 15
+    done
+}

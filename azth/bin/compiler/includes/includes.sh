@@ -8,11 +8,12 @@ source "$AZTH_PATH_COMPILER/config.sh" # should overwrite previous
 
 source "$AZTH_PATH_COMPILER/includes/defines.sh"
 
+INSTALL_PATH=$(readlink -f "$BINPATH/../")
 
 
 function azth_on_after_build() {
-    # copy specific confs
-    cp -rvf "$AZTH_PATH_CONF/"*.conf "$CONFDIR"
+    # move the run engine
+    cp -rvf "$AZTH_PATH_BIN/runners/run-engine" "$INSTALL_PATH/bin/"
 }
 
 registerHooks "ON_AFTER_BUILD" azth_on_after_build
@@ -20,7 +21,7 @@ registerHooks "ON_AFTER_BUILD" azth_on_after_build
 
 
 # include custom scripts
-customFile="$AZTH_PATH_ROOT/azth_custom/bin/compiler/custom.sh"
+customFile="$AZTH_PATH_CUSTOM/bin/compiler/custom.sh"
 if [ -f $customFile ]
 then
   source $customFile
