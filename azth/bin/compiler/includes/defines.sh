@@ -9,9 +9,8 @@ fi
 
 BUILDPATH=$BINPATH
 
+INSTALL_PATH=$(readlink -f "$BINPATH/../")
+
 [ $CCTYPE == "Debug" ] && BUILDPATH="$BUILDPATH/debug/build/" ||  BUILDPATH="$BUILDPATH/release/build/"
 
 [ $CCTYPE == "Debug" ] && BINPATH="$BINPATH/debug" || BINPATH="$BINPATH/release"
-
-mkdir -p $BUILDPATH
-mkdir -p $BINPATH

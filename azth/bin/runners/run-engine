@@ -1,7 +1,5 @@
 #!/bin/bash
 
-source ./config.dist
-
 function checkStatus() {
         if [ -d "/proc/"$1 ]; then
                 eval "TEST=1"
