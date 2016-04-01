@@ -2590,21 +2590,21 @@ Console.Enable = 1
 #        Default:     0 - (Disabled)
 #                     1 - (Enabled)
 
-Ra.Enable = 1
+Ra.Enable = 0
 
 #
 #    Ra.IP
 #        Description: Bind remote access to IP/hostname.
 #        Default:     "0.0.0.0" - (Bind to all IPs on the system)
 
-Ra.IP = "25.121.200.252"
+Ra.IP = "0.0.0.0"
 
 #
 #    Ra.Port
 #        Description: TCP port to reach the remote console.
 #        Default:     3443
 
-Ra.Port = 60100
+Ra.Port = 3443
 
 #
 #    Ra.MinLevel
@@ -2619,23 +2619,21 @@ Ra.MinLevel = 3
 #        Default:     0 - (Disabled)
 #                     1 - (Enabled)
 
-SOAP.Enabled = 1
+SOAP.Enabled = 0
 
 #
 #    SOAP.IP
 #        Description: Bind SOAP service to IP/hostname.
 #        Default:     "127.0.0.1" - (Bind to localhost)
 
-SOAP.IP = "25.121.200.252"
+SOAP.IP = "127.0.0.1"
 
 #
 #    SOAP.Port
 #        Description: TCP port to reach the SOAP service.
 #        Default:     7878
 
-SOAP.Port = 60102
-# workaround for hosting that does not supporto other ports
-#SOAP.Port = 80
+SOAP.Port = 7878
 
 #
 ###################################################################################################
