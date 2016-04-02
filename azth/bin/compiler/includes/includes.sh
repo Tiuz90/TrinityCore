@@ -6,7 +6,7 @@ AZTH_PATH_COMPILER="$AZTH_PATH_BIN/compiler"
 
 function azth_on_after_build() {
     # move the run engine
-    cp -rvf "$AZTH_PATH_BIN/runners/run-engine" "$INSTALL_PATH/bin/"
+    cp -rvf "$AZTH_PATH_BIN/runners/"* "$INSTALL_PATH/bin/"
 }
 
 registerHooks "ON_AFTER_BUILD" azth_on_after_build
