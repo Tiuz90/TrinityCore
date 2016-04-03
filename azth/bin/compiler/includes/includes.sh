@@ -1,27 +1,19 @@
-source "../bash_shared/includes.sh"
+CURRENT_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+source "$CURRENT_PATH/../../bash_shared/includes.sh"
 
 AZTH_PATH_COMPILER="$AZTH_PATH_BIN/compiler"
 
-source "$AZTH_PATH_COMPILER/config.sh.dist" # "hack" to avoid missing conf variables
-
-source "$AZTH_PATH_COMPILER/config.sh" # should overwrite previous
-
-source "$AZTH_PATH_COMPILER/includes/defines.sh"
-
-
-
 function azth_on_after_build() {
-    # copy specific confs
-    cp -rvf "$AZTH_PATH_CONF/"*.conf "$CONFDIR"
+    # move the run engine
+    cp -rvf "$AZTH_PATH_BIN/runners/"* "$INSTALL_PATH/bin/"
 }
 
 registerHooks "ON_AFTER_BUILD" azth_on_after_build
 
+source "$AZTH_PATH_COMPILER/includes/defines.sh"
 
+source "$AZTH_PATH_COMPILER/includes/functions.sh"
 
-# include custom scripts
-customFile="$AZTH_PATH_ROOT/azth_custom/bin/compiler/custom.sh"
-if [ -f $customFile ]
-then
-  source $customFile
-fi
+mkdir -p $BUILDPATH
+mkdir -p $BINPATH

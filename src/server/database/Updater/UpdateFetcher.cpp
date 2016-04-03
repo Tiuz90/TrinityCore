@@ -119,32 +119,30 @@ UpdateFetcher::DirectoryStorage UpdateFetcher::ReceiveIncludedDirectories(string
     } while (result->NextRow());
 
     // [AZTH] Yehonal: add some custom paths from config
-    if (dbName == "World") {
-        string custom_paths = sConfigMgr->GetStringDefault("Azth.Db.WorldCustomSqlPaths", "");
-        if (!custom_paths.empty()) {
-            typedef split_iterator<string::iterator> string_split_iterator;
-            for (string_split_iterator It =
-                    make_split_iterator(custom_paths, first_finder(",", is_iequal()));
-                    It != string_split_iterator();
-                    ++It) {
-                std::string path = copy_range<std::string>(*It);
+    string custom_paths = sConfigMgr->GetStringDefault("Azth.Db."+dbName+"CustomSqlPaths", "");
+    if (!custom_paths.empty()) {
+        typedef split_iterator<string::iterator> string_split_iterator;
+        for (string_split_iterator It =
+                make_split_iterator(custom_paths, first_finder(",", is_iequal()));
+                It != string_split_iterator();
+                ++It) {
+            std::string path = copy_range<std::string>(*It);
 
-                if (path.substr(0, 1) == "$")
-                    path = _sourceDirectory.generic_string() + path.substr(1);
+            if (path.substr(0, 1) == "$")
+                path = _sourceDirectory.generic_string() + path.substr(1);
 
-                Path const p(path);
+            Path const p(path);
 
-                if (!is_directory(p)) {
-                    TC_LOG_WARN("sql.updates", "DBUpdater: Given update include directory \"%s\" isn't existing, skipped!", p.generic_string().c_str());
-                    continue;
-                }
-
-                DirectoryEntry const entry = {p, AppliedFileEntry::StateConvert("RELEASED")};
-                directories.push_back(entry);
-
-                TC_LOG_TRACE("sql.updates", "Added applied file \"%s\" from remote.", p.filename().generic_string().c_str());
-
+            if (!is_directory(p)) {
+                TC_LOG_WARN("sql.updates", "DBUpdater: Given update include directory \"%s\" isn't existing, skipped!", p.generic_string().c_str());
+                continue;
             }
+
+            DirectoryEntry const entry = {p, AppliedFileEntry::StateConvert("RELEASED")};
+            directories.push_back(entry);
+
+            TC_LOG_TRACE("sql.updates", "Added applied file \"%s\" from remote.", p.filename().generic_string().c_str());
+
         }
     }
     // [/AZTH]

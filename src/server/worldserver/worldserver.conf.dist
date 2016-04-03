@@ -1649,14 +1649,14 @@ Channel.RestrictedLfg = 0
 #        Description: Level requirement for characters to be able to write in chat channels.
 #        Default:     1
 
-ChatLevelReq.Channel = 1
+ChatLevelReq.Channel = 10
 
 #
 #    ChatLevelReq.Whisper
 #        Description: Level requirement for characters to be able to whisper other characters.
 #        Default:     1
 
-ChatLevelReq.Whisper = 1
+ChatLevelReq.Whisper = 10
 
 #
 #    ChatLevelReq.Say
@@ -2590,21 +2590,21 @@ Console.Enable = 1
 #        Default:     0 - (Disabled)
 #                     1 - (Enabled)
 
-Ra.Enable = 1
+Ra.Enable = 0
 
 #
 #    Ra.IP
 #        Description: Bind remote access to IP/hostname.
 #        Default:     "0.0.0.0" - (Bind to all IPs on the system)
 
-Ra.IP = "25.121.200.252"
+Ra.IP = "0.0.0.0"
 
 #
 #    Ra.Port
 #        Description: TCP port to reach the remote console.
 #        Default:     3443
 
-Ra.Port = 60100
+Ra.Port = 3443
 
 #
 #    Ra.MinLevel
@@ -2619,23 +2619,21 @@ Ra.MinLevel = 3
 #        Default:     0 - (Disabled)
 #                     1 - (Enabled)
 
-SOAP.Enabled = 1
+SOAP.Enabled = 0
 
 #
 #    SOAP.IP
 #        Description: Bind SOAP service to IP/hostname.
 #        Default:     "127.0.0.1" - (Bind to localhost)
 
-SOAP.IP = "25.121.200.252"
+SOAP.IP = "127.0.0.1"
 
 #
 #    SOAP.Port
 #        Description: TCP port to reach the SOAP service.
 #        Default:     7878
 
-SOAP.Port = 60102
-# workaround for hosting that does not supporto other ports
-#SOAP.Port = 80
+SOAP.Port = 7878
 
 #
 ###################################################################################################
@@ -3600,11 +3598,13 @@ PacketSpoof.BanDuration = 86400
 
 ###################################################################################################
 # AZTH CONFIGURATIONS
-#   Azth.Db.CustomPaths
-#      Description: Comma-separated list of custom path for world custom sql files
+#   Azth.Db.[Database]CustomPaths
+#      Description: Comma-separated list of custom path for custom sql files
 #
 
-Azth.Db.WorldCustomSqlPaths="$/azth/data/sql/db-world/"
+Azth.Db.WorldCustomSqlPaths="$/azth/data/sql/db-world/,$/azth_custom/data/sql/db-world/"
+Azth.Db.AuthCustomSqlPaths="$/azth/data/sql/db-auth/,$/azth_custom/data/sql/db-auth/"
+Azth.Db.CharacterCustomSqlPaths="$/azth/data/sql/db-characters/,$/azth_custom/data/sql/db-characters/"
 
 #
 #

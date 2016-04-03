@@ -340,3 +340,16 @@ Logger.root=3,Console Auth
 
 #
 ###################################################################################################
+
+
+###################################################################################################
+# AZTH CONFIGURATIONS
+#   Azth.Db.AuthCustomPaths
+#      Description: Comma-separated list of custom path for custom sql files
+#
+
+Azth.Db.AuthCustomSqlPaths="$/azth/data/sql/db-auth/,$/azth_custom/data/sql/db-auth/"
+
+#
+#
+###################################################################################################

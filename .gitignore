@@ -16,8 +16,6 @@ CMakeLists.txt.user
 *.BACKUP.*
 *.BASE.*
 *.LOCAL.*
-nbproject/*
-
 
 #
 # IDE & other softwares
@@ -25,7 +23,7 @@ nbproject/*
 /.settings/
 /.externalToolBuilders/*
 # exclude in all levels
-nbproject/private/
+nbproject/
 .sync.ffs_db
 
 #
